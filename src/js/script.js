@@ -108,7 +108,7 @@
           if (activeProduct != thisProduct.element) {
 
             /* remove class active for the active product */
-
+            activeProduct.classList.remove(classNames.menuProduct.wrapperActive);
 
             /* END: if the active product isn't the element of thisProduct */
 
