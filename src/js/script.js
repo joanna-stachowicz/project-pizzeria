@@ -61,6 +61,7 @@
       thisProduct.data = data;
 
       thisProduct.renderInMenu();
+      thisProduct.getElements();
       thisProduct.initAkordion();
 
       console.log('new Product:', thisProduct);
@@ -93,11 +94,8 @@
     initAkordion() {
       const thisProduct = this;
 
-      /* find the clickable trigger (the element that should react to clicking) */
-      const clickedElement = thisProduct.element.querySelector(select.menuProduct.clickable);
-
       /* START: click event listener to trigger */
-      clickedElement.addEventListener('click', function (event) {
+      thisProduct.accordionTrigger.addEventListener('click', function (event) {
         console.log('clicked');
 
         /* prevent default action for event */
