@@ -17,7 +17,7 @@
       formInputs: 'input, select',
     },
     menuProduct: {
-      clickable: '.product__header',
+      clickable: '.product__header',      // zmiana widoczności opcji ma się odbywać na kliknięcie
       form: '.product__order',
       priceElem: '.product__total-price .price',
       imageWrapper: '.product__images',
@@ -61,6 +61,7 @@
       thisProduct.data = data;
 
       thisProduct.renderInMenu();
+      thisProduct.initAkordion();
 
       console.log('new Product:', thisProduct);
     }
@@ -79,6 +80,32 @@
 
       /* add element to menu */
       menuContainer.appendChild(thisProduct.element);
+    }
+    initAkordion() {
+      const thisProduct = this;
+
+      /* find the clickable trigger (the element that should react to clicking) */
+      const clickedElement = thisProduct.element.querySelector(select.menuProduct.clickable);
+
+      /* START: click event listener to trigger */
+
+      /* prevent default action for event */
+
+      /* toggle active class on element of thisProduct */
+
+      /* find all active products */
+
+      /* START LOOP: for each active product */
+
+      /* START: if the active product isn't the element of thisProduct */
+
+      /* remove class active for the active product */
+
+      /* END: if the active product isn't the element of thisProduct */
+
+      /* END LOOP: for each active product */
+
+      /* END: click event listener to trigger */
     }
   }
 
