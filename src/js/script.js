@@ -98,25 +98,26 @@
         thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
 
         /* find all active products */
-        
+        const activeProducts = document.querySelectorAll(select.all.menuProductsActive);
+        console.log(activeProducts);
 
         /* START LOOP: for each active product */
-      
+
 
           /* START: if the active product isn't the element of thisProduct */
-         
+
 
             /* remove class active for the active product */
-           
+
 
             /* END: if the active product isn't the element of thisProduct */
-          
+
 
           /* END LOOP: for each active product */
-        
+
 
         /* END: click event listener to trigger */
-     
+
     }
   }
 
