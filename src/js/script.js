@@ -102,7 +102,7 @@
         console.log(activeProducts);
 
         /* START LOOP: for each active product */
-
+        for (let activeProduct of activeProducts) {
 
           /* START: if the active product isn't the element of thisProduct */
 
