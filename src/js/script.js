@@ -88,24 +88,35 @@
       const clickedElement = thisProduct.element.querySelector(select.menuProduct.clickable);
 
       /* START: click event listener to trigger */
+      clickedElement.addEventListener('click', function (event) {
+        console.log('clicked');
 
-      /* prevent default action for event */
+        /* prevent default action for event */
+        event.preventDefault();
 
-      /* toggle active class on element of thisProduct */
+        /* toggle active class on element of thisProduct */
 
-      /* find all active products */
 
-      /* START LOOP: for each active product */
+        /* find all active products */
 
-      /* START: if the active product isn't the element of thisProduct */
 
-      /* remove class active for the active product */
+        /* START LOOP: for each active product */
 
-      /* END: if the active product isn't the element of thisProduct */
 
-      /* END LOOP: for each active product */
+          /* START: if the active product isn't the element of thisProduct */
 
-      /* END: click event listener to trigger */
+
+            /* remove class active for the active product */
+
+
+            /* END: if the active product isn't the element of thisProduct */
+
+
+          /* END LOOP: for each active product */
+
+
+        /* END: click event listener to trigger */
+
     }
   }
 
@@ -119,7 +130,7 @@
       }
     },
 
-    initData: function() {
+    initData: function () {
       const thisApp = this;
 
       thisApp.data = dataSource;                             // .data - klucz wewnątrz obiektu app    dataSource - jego wartość
