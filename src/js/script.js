@@ -152,8 +152,11 @@
       const thisProduct = this;
       console.log('processOrder');
 
+      /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
       const formData = utils.serializeFormToObject(thisProduct.form);
       console.log('formData', formData);
+
+      
     }
 
   }
