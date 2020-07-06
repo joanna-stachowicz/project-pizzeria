@@ -172,6 +172,8 @@
           console.log(optionId);
 
           /* save the element in param.options with key optionId as const option */
+          const option = param.options[optionId];
+          console.log(option);
 
           /* START IF: if option is selected and option is not default */
 
