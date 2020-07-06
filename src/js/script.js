@@ -165,6 +165,10 @@
         /* save the element in thisProduct.data.params with key paramId as const param */
         const param = paramId;
         console.log(param);
+        /* START LOOP: for each optionId in param.options */
+        for (let optionId in param.options) {
+
+        }
       }
     }
 
