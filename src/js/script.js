@@ -84,7 +84,7 @@
       /* add element to menu */
       menuContainer.appendChild(thisProduct.element);
     }
-    getElements() {
+    getElements(){
       const thisProduct = this;
 
       thisProduct.accordionTrigger = thisProduct.element.querySelector(select.menuProduct.clickable);
@@ -132,18 +132,18 @@
       const thisProduct = this;
       console.log('initOrderForm');
 
-      thisProduct.form.addEventListener('submit', function (event) {
+      thisProduct.form.addEventListener('submit', function(event) {
         event.preventDefault();            // blokowanie wysłania formularza z przeładowaniem strony i zmiany adresu strony po kliknięciu w link
         thisProduct.processOrder();
       });
 
       for (let input of thisProduct.formInputs) {
-        input.addEventListener('change', function () {
+        input.addEventListener('change', function() {
           thisProduct.processOrder();
         });
       }
 
-      thisProduct.cartButton.addEventListener('click', function (event) {
+      thisProduct.cartButton.addEventListener('click', function(event) {
         event.preventDefault();
         thisProduct.processOrder();
       });
@@ -162,7 +162,9 @@
 
       /* START LOOP: for each paramId in thisProduct.data.params */
       for (let paramId in thisProduct.data.params) {
-
+        /* save the element in thisProduct.data.params with key paramId as const param */
+        const param = paramId;
+        console.log(param);
       }
     }
 
