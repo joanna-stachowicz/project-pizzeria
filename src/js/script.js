@@ -6,6 +6,7 @@
   const select = {
     templateOf: {
       menuProduct: '#template-menu-product',
+      cartProduct: '#template-cart-product',
     },
     containerOf: {
       menu: '#product-list',
@@ -26,10 +27,28 @@
     },
     widgets: {
       amount: {
-        input: 'input[name="amount"]',
+        input: 'input.amount',
         linkDecrease: 'a[href="#less"]',
         linkIncrease: 'a[href="#more"]',
       },
+    },
+    cart: {
+      productList: '.cart__order-summary',
+      toggleTrigger: '.cart__summary',
+      totalNumber: `.cart__total-number`,
+      totalPrice: '.cart__total-price strong, .cart__order-total .cart__order-price-sum strong',
+      subtotalPrice: '.cart__order-subtotal .cart__order-price-sum strong',
+      deliveryFee: '.cart__order-delivery .cart__order-price-sum strong',
+      form: '.cart__order',
+      formSubmit: '.cart__order [type="submit"]',
+      phone: '[name="phone"]',
+      address: '[name="address"]',
+    },
+    cartProduct: {
+      amountWidget: '.widget-amount',
+      price: '.cart__product-price',
+      edit: '[href="#edit"]',
+      remove: '[href="#remove"]',
     },
   };
 
@@ -38,6 +57,9 @@
       wrapperActive: 'active',
       imageVisible: 'active',
     },
+    cart: {
+      wrapperActive: 'active',
+    },
   };
 
   const settings = {
@@ -45,11 +67,15 @@
       defaultValue: 1,
       defaultMin: 1,
       defaultMax: 9,
-    }
+    },
+    cart: {
+      defaultDeliveryFee: 20,
+    },
   };
 
   const templates = {
     menuProduct: Handlebars.compile(document.querySelector(select.templateOf.menuProduct).innerHTML),
+    cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
   };
 
   class Product {
@@ -67,8 +93,9 @@
       thisProduct.initAmountWidget();
       thisProduct.processOrder();
 
-      console.log('new Product:', thisProduct);
+      // console.log('new Product:', thisProduct);
     }
+
     renderInMenu() {
       const thisProduct = this;
 
@@ -85,6 +112,7 @@
       /* add element to menu */
       menuContainer.appendChild(thisProduct.element);
     }
+
     getElements() {
       const thisProduct = this;
 
@@ -96,6 +124,7 @@
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
       thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
     }
+
     initAkordion() {
       const thisProduct = this;
 
@@ -131,6 +160,7 @@
         /* END: click event listener to trigger */
       });
     }
+
     initOrderForm() {       // dodanie listenerów eventów do formularza, jego kontrolek i guzika dodania do koszyka
       const thisProduct = this;
       // console.log('initOrderForm');
@@ -151,6 +181,7 @@
         thisProduct.processOrder();
       });
     }
+
     processOrder() {             // obliczanie ceny produktu
 
       const thisProduct = this;
@@ -218,6 +249,7 @@
       /* set the contents of thisProduct.priceElem to be the value of variable price */
       thisProduct.priceElem.innerHTML = price;
     }
+
     initAmountWidget() {       // tworzy instancję klasy AmountWidget i zapisuje ją we właściwości produktu
       const thisProduct = this;
 
@@ -236,14 +268,15 @@
 
       thisWidget.getElements(element);
       thisWidget.input.value = settings.amountWidget.defaultValue;
-      console.log(thisWidget.value);
+      // console.log(thisWidget.value);
 
       thisWidget.setValue(thisWidget.input.value);
       thisWidget.initActions();
 
-      console.log('AmountWidget:', thisWidget);
-      console.log('constructor arguments:', element);
+      // console.log('AmountWidget:', thisWidget);
+      // console.log('constructor arguments:', element);
     }
+
     getElements(element) {
       const thisWidget = this;
 
@@ -252,6 +285,7 @@
       thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
       thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
     }
+
     setValue(value) {                   // ustawianie nowej wartości widgetu
       const thisWidget = this;
 
@@ -261,14 +295,15 @@
       // newValue - będziemy sprawdzać, czy wartość jest poprawna, czy mieści się w zakresie; jeśli tak, zostanie zapisana jako wartość thisWidget.value
 
       if (newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax) {
-        console.log(newValue);
-        console.log(thisWidget.value);
+        // console.log(newValue);
+        // console.log(thisWidget.value);
         thisWidget.value = newValue;            // zapisanie wartości przekazanego arg. po przekonwertowaniu go na liczbę
         thisWidget.announce();
       }
 
       thisWidget.input.value = thisWidget.value;   // ustawienie nowej wartości inputa
     }
+
     initActions() {
       const thisWidget = this;
 
@@ -288,6 +323,7 @@
         thisWidget.setValue(valueIncreased);
       });
     }
+
     announce() {           // tworzy instancje klasy Event wbudowanej w JS; ten event zostanie wywołany na kontenerze widgetu
       const thisWidget = this;
 
@@ -295,6 +331,38 @@
       thisWidget.element.dispatchEvent(event);
     }
 
+  }
+
+  /* pokazywanie i ukrywanie koszyka; dodawanie/usuwanie produktów; podliczanie ceny zamówienia */
+  class Cart {
+    constructor(element) {
+      const thisCart = this;
+
+      thisCart.products = [];    // produkty dodane do koszyka
+
+      thisCart.getElements(element);
+      thisCart.initActions();
+
+      console.log('new Cart:', thisCart);
+    }
+
+    getElements(element) {
+      const thisCart = this;
+
+      thisCart.dom = {};     // wszystkie elementy DOM wyszukane w komponencie koszyka (ułatwi nazewnictwo)
+
+      thisCart.dom.wrapper = element;
+      thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);     // podsumowanie koszyka
+      console.log(thisCart.dom.toggleTrigger);
+    }
+
+    initActions() {
+      const thisCart = this;
+
+      thisCart.dom.toggleTrigger.addEventListener('click', function () {
+        thisCart.dom.wrapper.classList.toggle(classNames.cart.wrapperActive);
+      });
+    }
   }
 
   const app = {
@@ -315,15 +383,24 @@
 
     init: function () {
       const thisApp = this;
-      console.log('*** App starting ***');
-      console.log('thisApp:', thisApp);
-      console.log('classNames:', classNames);
-      console.log('settings:', settings);
-      console.log('templates:', templates);
+      // console.log('*** App starting ***');
+      // console.log('thisApp:', thisApp);
+      // console.log('classNames:', classNames);
+      // console.log('settings:', settings);
+      // console.log('templates:', templates);
 
       thisApp.initData();
 
       thisApp.initMenu();
+
+      thisApp.initCart();
+    },
+
+    initCart: function () {               // inicjuje instancję koszyka  // przekażemy jej wrapper - kontener; element okalacjący - koszyka
+      const thisApp = this;
+
+      const cartElem = document.querySelector(select.containerOf.cart);
+      thisApp.cart = new Cart(cartElem);
     },
   };
 
