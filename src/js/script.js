@@ -235,7 +235,6 @@
       const thisWidget = this;
 
       thisWidget.getElements(element);
-
       thisWidget.input.value = settings.amountWidget.defaultValue;
       console.log(thisWidget.value);
 
@@ -261,17 +260,20 @@
       /* TODO: Add validation */
       // newValue - będziemy sprawdzać, czy wartość jest poprawna, czy mieści się w zakresie; jeśli tak, zostanie zapisana jako wartość thisWidget.value
 
-      thisWidget.value = newValue;        // zapisanie wartości przekazanego arg. po przekonwertowaniu go na liczbę
-
-      thisWidget.announce();
+      if (newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax) {
+        console.log(newValue);
+        console.log(thisWidget.value);
+        thisWidget.value = newValue;            // zapisanie wartości przekazanego arg. po przekonwertowaniu go na liczbę
+        thisWidget.announce();
+      }
 
       thisWidget.input.value = thisWidget.value;   // ustawienie nowej wartości inputa
     }
     initActions() {
       const thisWidget = this;
 
-      thisWidget.input.addEventListener('change', function (element) {
-        element.setValue();
+      thisWidget.input.addEventListener('change', function () {
+        thisWidget.setValue(thisWidget.input.value);
       });
 
       thisWidget.linkDecrease.addEventListener('click', function (event) {
