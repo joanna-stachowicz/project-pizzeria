@@ -152,6 +152,7 @@
       });
     }
     processOrder() {             // obliczanie ceny produktu
+
       const thisProduct = this;
       // console.log('processOrder');
 
@@ -215,6 +216,7 @@
 
       /* multiply price by amount */
       price *= thisProduct.amountWidget.value;
+      console.log(price);
     }
     initAmountWidget() {       // tworzy instancję klasy AmountWidget i zapisuje ją we właściwości produktu
       const thisProduct = this;
@@ -278,7 +280,7 @@
         thisWidget.setValue(valueIncreased);
       });
     }
-    announce() {           // tworzy instancje klasy Event wbudowanej w JS; ten event zostanie wywołay na kontenerze widgetu
+    announce() {           // tworzy instancje klasy Event wbudowanej w JS; ten event zostanie wywołany na kontenerze widgetu
       const thisWidget = this;
 
       const event = new Event('updated');
