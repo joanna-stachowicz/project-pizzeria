@@ -64,6 +64,7 @@
       thisProduct.getElements();
       thisProduct.initAkordion();
       thisProduct.initOrderForm();
+      thisProduct.initAmountWidget();
       thisProduct.processOrder();
 
       console.log('new Product:', thisProduct);
@@ -73,7 +74,7 @@
 
       /* generate HTML based on template */
       const generatedHTML = templates.menuProduct(thisProduct.data);
-      console.log(generatedHTML);
+      // console.log(generatedHTML);
 
       /* create element using utils.createElementFromHTML */
       thisProduct.element = utils.createDOMFromHTML(generatedHTML);
@@ -93,13 +94,14 @@
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
       thisProduct.imageWrapper = thisProduct.element.querySelector(select.menuProduct.imageWrapper);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
     }
     initAkordion() {
       const thisProduct = this;
 
       /* START: click event listener to trigger */
       thisProduct.accordionTrigger.addEventListener('click', function (event) {
-        console.log('clicked');
+        // console.log('clicked');
 
         /* prevent default action for event */
         event.preventDefault();
@@ -109,7 +111,7 @@
 
         /* find all active products */
         const activeProducts = document.querySelectorAll(select.all.menuProductsActive);
-        console.log(activeProducts);
+        // console.log(activeProducts);
 
         /* START LOOP: for each active product */
         for (let activeProduct of activeProducts) {
@@ -131,7 +133,7 @@
     }
     initOrderForm() {       // dodanie listenerów eventów do formularza, jego kontrolek i guzika dodania do koszyka
       const thisProduct = this;
-      console.log('initOrderForm');
+      // console.log('initOrderForm');
 
       thisProduct.form.addEventListener('submit', function (event) {
         event.preventDefault();            // blokowanie wysłania formularza z przeładowaniem strony i zmiany adresu strony po kliknięciu w link
@@ -151,30 +153,30 @@
     }
     processOrder() {             // obliczanie ceny produktu
       const thisProduct = this;
-      console.log('processOrder');
+      // console.log('processOrder');
 
       /* read all data from the form (using utils.serializeFormToObject) and save it to const formData */
       const formData = utils.serializeFormToObject(thisProduct.form);          // zawiera zaznaczone opcje
-      console.log('formData', formData);
+      // console.log('formData', formData);
 
       /* set variable price to equal thisProduct.data.price */
       let price = thisProduct.data.price;
-      console.log(price);
+      // console.log(price);
 
       /* START LOOP: for each paramId in thisProduct.data.params */
       for (let paramId in thisProduct.data.params) {
 
         /* save the element in thisProduct.data.params with key paramId as const param */
         const param = thisProduct.data.params[paramId];
-        console.log(param);
+        // console.log(param);
 
         /* START LOOP: for each optionId in param.options */
         for (let optionId in param.options) {
-          console.log(optionId);
+          // console.log(optionId);
 
           /* save the element in param.options with key optionId as const option */
           const option = param.options[optionId];
-          console.log(option);
+          // console.log(option);
 
           /* START IF: if option is selected and option is not default */
           const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1;
@@ -191,7 +193,7 @@
           }
           const selector = '.' + paramId + '-' + optionId;
           const optionImages = thisProduct.imageWrapper.querySelectorAll(selector);
-          console.log(optionImages);
+          // console.log(optionImages);
 
           if (optionSelected) {
             for (let optionImage of optionImages) {
@@ -210,16 +212,85 @@
       }
       /* set the contents of thisProduct.priceElem to be the value of variable price */
       thisProduct.priceElem.innerHTML = price;
+
+      /* multiply price by amount */
+      price *= thisProduct.amountWidget.value;
+    }
+    initAmountWidget() {       // tworzy instancję klasy AmountWidget i zapisuje ją we właściwości produktu
+      const thisProduct = this;
+
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+
+      thisProduct.amountWidgetElem.addEventListener('updated', thisProduct.processOrder());
     }
 
   }
 
+  class AmountWidget {
+    constructor(element) {
+      const thisWidget = this;
 
+      thisWidget.getElements(element);
+      thisWidget.setValue(thisWidget.input.value);
+      thisWidget.initActions();
+
+      console.log('AmountWidget:', thisWidget);
+      console.log('constructor arguments:', element);
+    }
+    getElements(element) {
+      const thisWidget = this;
+
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+    setValue(value) {                   // ustawianie nowej wartości widgetu
+      const thisWidget = this;
+
+      const newValue = parseInt(value);
+
+      /* TODO: Add validation */
+
+      thisWidget.value = newValue;        // zapisanie wartości przekazanego arg. po przekonwertowaniu go na liczbę
+      // newValue - będziemy sprawdzać, czy wartość jest poprawna, czy mieści się w zakresie; jeśli tak, zostanie zapisana jako wartość thisWidget.value
+
+      thisWidget.announce();
+
+      thisWidget.input.value = thisWidget.value;   // ustawienie nowej wartości inputa
+    }
+    initActions() {
+      const thisWidget = this;
+
+      thisWidget.input.addEventListener('change', function(element) {
+        element.setValue();
+      });
+
+      thisWidget.linkDecrease.addEventListener('click', function(event) {
+        event.preventDefault();
+        const valueDecreased = thisWidget.value - 1;
+        thisWidget.setValue(valueDecreased);
+      });
+
+      thisWidget.linkIncrease.addEventListener('click', function (event) {
+        event.preventDefault();
+        const valueIncreased = thisWidget.value + 1;
+        thisWidget.setValue(valueIncreased);
+      });
+    }
+    announce() {           // tworzy instancje klasy Event wbudowanej w JS; ten event zostanie wywołay na kontenerze widgetu
+      const thisWidget = this;
+
+      const event = new Event('updated');
+      thisWidget.element.dispatchEvent(event);
+    }
+
+  }
 
   const app = {
     initMenu: function () {                                   // initMenu to metoda lub klucz, którego wartość jest funkcją
       const thisApp = this;
-      console.log('thisApp.data:', thisApp.data);
+      // console.log('thisApp.data:', thisApp.data);
 
       for (let productData in thisApp.data.products) {
         new Product(productData, thisApp.data.products[productData]);
