@@ -216,16 +216,19 @@
 
       /* multiply price by amount */
       price *= thisProduct.amountWidget.value;
-      console.log(price);
+
+      thisProduct.priceElem.innerHTML = price;
     }
     initAmountWidget() {       // tworzy instancję klasy AmountWidget i zapisuje ją we właściwości produktu
       const thisProduct = this;
 
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
 
-      thisProduct.amountWidgetElem.addEventListener('updated', thisProduct.processOrder());
-    }
+      thisProduct.amountWidgetElem.addEventListener('updated', function () {
+        thisProduct.processOrder();
+      });
 
+    }
   }
 
   class AmountWidget {
@@ -264,11 +267,11 @@
     initActions() {
       const thisWidget = this;
 
-      thisWidget.input.addEventListener('change', function(element) {
+      thisWidget.input.addEventListener('change', function (element) {
         element.setValue();
       });
 
-      thisWidget.linkDecrease.addEventListener('click', function(event) {
+      thisWidget.linkDecrease.addEventListener('click', function (event) {
         event.preventDefault();
         const valueDecreased = thisWidget.value - 1;
         thisWidget.setValue(valueDecreased);
