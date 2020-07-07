@@ -211,12 +211,11 @@
         }
         /* END LOOP: for each paramId in thisProduct.data.params */
       }
-      /* set the contents of thisProduct.priceElem to be the value of variable price */
-      thisProduct.priceElem.innerHTML = price;
 
       /* multiply price by amount */
       price *= thisProduct.amountWidget.value;
 
+      /* set the contents of thisProduct.priceElem to be the value of variable price */
       thisProduct.priceElem.innerHTML = price;
     }
     initAmountWidget() {       // tworzy instancję klasy AmountWidget i zapisuje ją we właściwości produktu
@@ -236,6 +235,10 @@
       const thisWidget = this;
 
       thisWidget.getElements(element);
+
+      thisWidget.input.value = settings.amountWidget.defaultValue;
+      console.log(thisWidget.value);
+
       thisWidget.setValue(thisWidget.input.value);
       thisWidget.initActions();
 
@@ -256,9 +259,9 @@
       const newValue = parseInt(value);
 
       /* TODO: Add validation */
+      // newValue - będziemy sprawdzać, czy wartość jest poprawna, czy mieści się w zakresie; jeśli tak, zostanie zapisana jako wartość thisWidget.value
 
       thisWidget.value = newValue;        // zapisanie wartości przekazanego arg. po przekonwertowaniu go na liczbę
-      // newValue - będziemy sprawdzać, czy wartość jest poprawna, czy mieści się w zakresie; jeśli tak, zostanie zapisana jako wartość thisWidget.value
 
       thisWidget.announce();
 
