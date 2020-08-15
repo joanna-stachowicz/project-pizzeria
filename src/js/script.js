@@ -404,7 +404,7 @@
       console.log('adding product:', menuProduct);
 
       /* generate HTML based on template */
-      const generatedHTML = templates.menuProduct(menuProduct.data);
+      const generatedHTML = templates.cartProduct(menuProduct.data);
       // console.log(generatedHTML);
 
       /* create element using utils.createElementFromHTML */
@@ -412,7 +412,7 @@
       thisCart.dom.productList.push(generatedDOM);
 
       /* add element to cart */
-      thisCart.dom.toggleTrigger.appendChild(generatedDOM);
+      thisCart.dom.toggleTrigger.insertAdjacentElement('afterend', generatedDOM);
     }
   }
 
