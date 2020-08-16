@@ -386,8 +386,8 @@
 
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);     // podsumowanie koszyka - górna belka
-      thisCart.dom.productList = [];
-      console.log(thisCart.dom.toggleTrigger);
+      thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
+      // console.log(thisCart.dom.toggleTrigger);
     }
 
     initActions() {
@@ -409,10 +409,9 @@
 
       /* create element using utils.createElementFromHTML */
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
-      thisCart.dom.productList.push(generatedDOM);
 
       /* add element to cart */
-      thisCart.dom.toggleTrigger.insertAdjacentElement('afterend', generatedDOM);
+      thisCart.dom.productList.appendChild(generatedDOM);
     }
   }
 
