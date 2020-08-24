@@ -1,8 +1,62 @@
-import {settings, select} from './settings.js';
+import { settings, select, classNames } from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
+import Booking from './components/Booking.js';
 
 const app = {
+  initPages: function () {             //ta metoda jest uruchamiana w momencie odświeżenia strony
+    const thisApp = this;
+
+    thisApp.pages = document.querySelector(select.containerOf.pages).children;   // kontenery podstron (section id="booking" i "order") - dzieci kontenera stron (<div id="pages">) // .children - zwraca tablicę
+    thisApp.navLinks = document.querySelectorAll(select.nav.links);
+
+    const idFromHash = window.location.hash.replace('#/', '');
+
+    let pageMatchingHash = thisApp.pages[0].id; // jeśli zmienna zostałaby zdefiniowana wewnątrz pętli for, nie można by było z niej korzystać w innym miejscu
+
+    for (let page of thisApp.pages) {
+      if (page.id == idFromHash) {
+        pageMatchingHash = page.id;
+        break;                    // nie zostaną wykonane kolejne iteracje pętli
+      }
+    }
+
+    thisApp.activatePage(pageMatchingHash);     // <= aktywacja pierwszej z podstron w momencie otwarcia strony
+
+    for (let link of thisApp.navLinks) {
+      link.addEventListener('click', function (event) {
+        const clickedElement = this;
+        event.preventDefault();
+
+        /* get page id from href attribute */
+        const id = clickedElement.getAttribute('href').replace('#', '');  // w const id zapisujemy atr. href klikniętego elementu, w którym zamienimy znak '#' na pusty ciąg znaków => pozostaniemt tekst po '#'
+
+        /* run thisApp.activatePage with that id */
+        thisApp.activatePage(id);
+
+        /* change URL hash */
+        window.location.hash = '#/' + id;   // zapis '#/' sprawia, że strona się nie przewija w dół (na kontener o id="order") po kliknięciu w order
+      });
+    }
+  },
+
+  activatePage: function (pageId) {
+    const thisApp = this;
+
+    /* add class "active" to matching pages, remove from non-matching */
+    for (let page of thisApp.pages) {
+      page.classList.toggle(classNames.pages.active, page.id == pageId);    // to, czy klasa zostanie nadana, czy nie, może być kontrolowana za pomocą drugiego argumentu
+    }
+
+    /* add class "active" to matching links, remove from non-matching */
+    for (let link of thisApp.navLinks) {
+      link.classList.toggle(
+        classNames.nav.active,
+        link.getAttribute('href') == '#' + pageId
+      );
+    }
+  },
+
   initMenu: function () {                                   // initMenu to metoda lub klucz (nazwa właściwości), którego wartość jest funkcją
     const thisApp = this;
     // console.log('thisApp.data:', thisApp.data);
@@ -35,6 +89,14 @@ const app = {
     console.log('thisApp.data', JSON.stringify(thisApp.data));
   },
 
+  initBooking: function () {
+    const thisApp = this;
+
+    thisApp.bookingWidget = document.querySelector(select.containerOf.booking);
+
+    new Booking(thisApp.bookingWidget);
+  },
+
   init: function () {
     const thisApp = this;
     // console.log('*** App starting ***');
@@ -43,9 +105,13 @@ const app = {
     // console.log('settings:', settings);
     // console.log('templates:', templates);
 
+    thisApp.initPages();
+
     thisApp.initData();
 
     thisApp.initCart();
+
+    thisApp.initBooking();
   },
 
   initCart: function () {               // inicjuje instancję koszyka  // przekażemy jej wrapper - kontener; element okalacjący - koszyka
@@ -56,7 +122,7 @@ const app = {
 
     thisApp.productList = document.querySelector(select.containerOf.menu);
 
-    thisApp.productList.addEventListener('add-to-cart', function(event) {
+    thisApp.productList.addEventListener('add-to-cart', function (event) {
       app.cart.add(event.detail.product);
     });
   },
