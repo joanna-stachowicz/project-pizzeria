@@ -86,7 +86,8 @@ class Cart {                       // pokazywanie i ukrywanie koszyka; dodawanie
     fetch(url, options)              // wysyłamy zapytania pod takie adresy (numery telefonów)
       .then(function(response) {
         return response.json();
-      }).then(function(parsedResponse) {
+      })
+      .then(function(parsedResponse) {
         console.log('parsedResponse', parsedResponse);
       });
   }
