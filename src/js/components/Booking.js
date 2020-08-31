@@ -234,7 +234,7 @@ class Booking {
             return response.json();
           })
           .then(function (parsedResponse) {
-            console.log('parsedResponse', parsedResponse)
+            console.log('parsedResponse', parsedResponse);
           });
       }
     }

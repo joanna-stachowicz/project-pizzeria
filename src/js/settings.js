@@ -67,6 +67,7 @@ export const select = {
     starter: 'starter',
   },
   nav: {
+    mainNav: '.main-nav',
     links: '.main-nav a',
   },
 };
@@ -78,6 +79,7 @@ export const classNames = {
   },
   cart: {
     wrapperActive: 'active',
+    invisible: 'invisible',
   },
   booking: {
     loading: 'loading',
@@ -86,6 +88,7 @@ export const classNames = {
   },
   nav: {
     active: 'active',
+    invisible: 'invisible',
   },
   pages: {
     active: 'active',

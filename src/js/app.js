@@ -55,6 +55,16 @@ const app = {
         link.getAttribute('href') == '#' + pageId
       );
     }
+
+    /* get elements cart and nav */
+    thisApp.nav = document.querySelector(select.nav.mainNav);
+    thisApp.cart = document.querySelector(select.containerOf.cart);
+
+    /* add class 'visible' on main-nav and cart if home page is not turned on */
+    if (pageId == 'home') {
+      thisApp.nav.classList.add(classNames.nav.invisible);
+      thisApp.cart.classList.add(classNames.cart.invisible);
+    }
   },
 
   initMenu: function () {                                   // initMenu to metoda lub klucz (nazwa właściwości), którego wartość jest funkcją

@@ -1,0 +1,38 @@
+.home-wrapper {
+  margin: ($base-size * 3.5) auto;
+  padding: ($base-size * 6) ($base-size * 4);
+  background: $color-light;
+  border-bottom: 1px solid lighten($color-dark, 70%);
+  border-radius: $radius;
+}
+
+.intro {
+  padding: ($base-size * 3) 0;
+  font-family: $font-header;
+  text-transform: uppercase;
+  height: 120vh;
+  position: relative;
+}
+
+// .wrapper {
+//   display: flex;
+// }
+
+.order, .booking {
+  position: absolute;
+  background-position: center center;
+  background-size: cover;
+}
+
+.order {
+  background-image: url("https://i.ibb.co/f0tsRzw/pizza-1.jpg");
+}
+
+.booking {
+  background-image: url("https://i.ibb.co/fr3b9qY/pizza-2.jpg");
+}
+
+.opening-hours {
+  background-color: $color-main;
+}
+

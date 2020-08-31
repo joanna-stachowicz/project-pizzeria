@@ -39,6 +39,9 @@
   position: absolute;
   @include flex(row, flex-start, flex-start);
   bottom: ($base-size * -8);
+  &.invisible {
+    display: none;
+  }
 
   a {
     @extend .h2;
