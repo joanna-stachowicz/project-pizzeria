@@ -1,7 +1,8 @@
-import { settings, select, classNames } from './settings.js';
+import {settings, select, classNames} from './settings.js';
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
 import Booking from './components/Booking.js';
+import CarouselWidget from './components/CarouselWidget.js';
 
 const app = {
   initPages: function () {             //ta metoda jest uruchamiana w momencie odświeżenia strony
@@ -64,10 +65,13 @@ const app = {
     if (pageId == 'home') {
       thisApp.nav.classList.add(classNames.nav.invisible);
       thisApp.cart.classList.add(classNames.cart.invisible);
+    } else {
+      thisApp.nav.classList.remove(classNames.nav.invisible);
+      thisApp.cart.classList.remove(classNames.cart.invisible);
     }
   },
 
-  initMenu: function () {                                   // initMenu to metoda lub klucz (nazwa właściwości), którego wartość jest funkcją
+  initMenu: function () {   // initMenu to metoda lub klucz (nazwa właściwości), którego wartość jest funkcją
     const thisApp = this;
     // console.log('thisApp.data:', thisApp.data);
 
@@ -107,6 +111,15 @@ const app = {
     new Booking(thisApp.bookingWidget);
   },
 
+  initCarousel: function () {
+    const thisApp = this;
+
+    thisApp.carouselWidget = document.querySelectorAll(select.carousel.slides);
+    console.log(thisApp.carouselWidget.length);
+
+    new CarouselWidget(thisApp.carouselWidget);
+  },
+
   init: function () {
     const thisApp = this;
     // console.log('*** App starting ***');
@@ -122,6 +135,8 @@ const app = {
     thisApp.initCart();
 
     thisApp.initBooking();
+
+    thisApp.initCarousel();
   },
 
   initCart: function () {               // inicjuje instancję koszyka  // przekażemy jej wrapper - kontener; element okalacjący - koszyka
@@ -139,4 +154,6 @@ const app = {
 };
 
 app.init();
+
+document.app = app;
 

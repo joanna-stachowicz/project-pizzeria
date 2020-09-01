@@ -2,9 +2,11 @@ import {settings, select} from '../settings.js';
 import BaseWidget from './BaseWidget.js';
 
 class AmountWidget extends BaseWidget {
-  constructor(element) {
+  constructor(element, step) {
     super(element, settings.amountWidget.defaultValue);
     const thisWidget = this;
+    thisWidget.step = step;
+    thisWidget.maxValue = settings.amountWidget.defaultMax;
 
     thisWidget.getElements(element);
 
@@ -35,13 +37,24 @@ class AmountWidget extends BaseWidget {
   }
 
   parseValue(value) {
-    return parseInt(value);
+    return parseFloat(value);
+  }
+
+  setMax(value){
+    const thisWidget = this;
+    thisWidget.maxValue = value;
+
+    if (thisWidget.value > thisWidget.maxValue){
+      thisWidget.value = thisWidget.maxValue;
+    }
   }
 
   isValid(value) {
+    const thisWidget = this;
+
     return !isNaN(value) // sprawdza, czy value nie jest nieliczbą; funkcja isNaN sprawdza, czy przekazana wartość jest NotaNumber
     && value >= settings.amountWidget.defaultMin
-    && value <= settings.amountWidget.defaultMax;
+    && value <= thisWidget.maxValue;
   }
 
   renderValue() {
@@ -59,13 +72,13 @@ class AmountWidget extends BaseWidget {
 
     thisWidget.dom.linkDecrease.addEventListener('click', function (event) {
       event.preventDefault();
-      const valueDecreased = thisWidget.value - 1;
+      const valueDecreased = thisWidget.value - thisWidget.step ;
       thisWidget.setValue(valueDecreased);
     });
 
     thisWidget.dom.linkIncrease.addEventListener('click', function (event) {
       event.preventDefault();
-      const valueIncreased = thisWidget.value + 1;
+      const valueIncreased = thisWidget.value + thisWidget.step ;
       thisWidget.setValue(valueIncreased);
     });
   }

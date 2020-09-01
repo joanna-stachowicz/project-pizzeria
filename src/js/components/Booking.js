@@ -1,4 +1,4 @@
-import { templates, select, settings, classNames } from '../settings.js';
+import {templates, select, settings, classNames} from '../settings.js';
 import AmountWidget from './AmountWidget.js';
 import DatePicker from './DatePicker.js';
 import HourPicker from './HourPicker.js';
@@ -136,7 +136,7 @@ class Booking {
     }
 
     for (let table of thisBooking.dom.tables) {
-      table.classList.remove(classNames.booking.tableSelected);
+
       let tableId = table.getAttribute(settings.booking.tableIdAttribute);
       if (!isNaN(tableId)) {
         tableId = parseInt(tableId);
@@ -148,10 +148,38 @@ class Booking {
         thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)
       ) {
         table.classList.add(classNames.booking.tableBooked);
+        table.classList.remove(classNames.booking.tableSelected);
       } else {
         table.classList.remove(classNames.booking.tableBooked);
       }
     }
+  }
+
+  getMaxHours(){
+    const thisBooking = this;
+    let minHours = settings.hours.close - thisBooking.hour;
+    for (let table of thisBooking.dom.tables) {
+      let tableId = table.getAttribute(settings.booking.tableIdAttribute);
+      if (!isNaN(tableId)) {
+        tableId = parseInt(tableId);
+      }
+      if (table.classList.contains(classNames.booking.tableSelected)) {
+        let possibleHours = 0;
+        for (let hour = 0.0; hour < minHours; hour += 0.5) {
+          const hourBlock = thisBooking.hour + hour;
+          if (typeof thisBooking.booked[thisBooking.date][hourBlock] == 'undefined') {
+            possibleHours = hour + 0.5;
+          } else if (thisBooking.booked[thisBooking.date][hourBlock].indexOf(tableId) == -1) {
+            possibleHours = hour + 0.5;
+          } else {
+            break;
+          }
+        }
+        if (possibleHours < minHours)
+          minHours = possibleHours;
+      }
+    }
+    return minHours;
   }
 
   initSelectTable() {
@@ -161,6 +189,8 @@ class Booking {
       table.addEventListener('click', function () {
         if (!(table.classList.contains(classNames.booking.tableBooked))) {
           table.classList.toggle(classNames.booking.tableSelected);
+          const maxHours = thisBooking.getMaxHours();
+          thisBooking.hoursAmount.setMax(maxHours);
         }
       });
     }
@@ -260,8 +290,8 @@ class Booking {
   initWidgets() {
     const thisBooking = this;
 
-    thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
-    thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
+    thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount, 1);
+    thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount, 0.5);
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
 
