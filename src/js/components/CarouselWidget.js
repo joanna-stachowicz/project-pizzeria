@@ -1,4 +1,4 @@
-import {classNames} from '../settings.js';
+import {classNames, select} from '../settings.js';
 
 class CarouselWidget {
   constructor(slides) {
@@ -8,6 +8,7 @@ class CarouselWidget {
 
     thisWidget.addActive(slides[0]);
     thisWidget.initInterval();
+    thisWidget.activateDots();
   }
 
   addActive(slide) {
@@ -46,6 +47,12 @@ class CarouselWidget {
       }
     },
     3000);
+  }
+
+  activateDots() {
+    const thisWidget = this;
+
+    thisWidget.dots = document.querySelectorAll(select.carousel.dots);
   }
 }
 

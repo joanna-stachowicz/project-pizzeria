@@ -8,7 +8,7 @@
 }
 
 section {
-  padding: ($base-size * 3) 0;
+  margin-bottom: ($base-size * 6);
 }
 
 /* Intro */
@@ -51,6 +51,35 @@ section {
   }
 }
 
+.subpage {
+  position: relative;
+
+  &:hover {
+    .subpage-hover {
+      display: block;
+    }
+
+    h1 {
+      display: none;
+    }
+  }
+
+  .subpage-hover {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+
+    p {
+      text-transform: none;
+      font-family: $font-text;
+      font-size: 12px;
+    }
+  }
+}
+
 .order {
   background-image: url("https://i.ibb.co/f0tsRzw/pizza-1.jpg");
 }
@@ -66,12 +95,11 @@ section {
 /* Carousel */
 
 .carousel {
-  height: ;
-  position: absolute;
   position: relative;
   overflow: hidden;
-  width: 100%;
-  height: 100%;
+  width: 598.011px;
+  height: 220px;
+
   .opinion-wrapper {
     display: flex;
     position: absolute;
@@ -79,11 +107,13 @@ section {
     height: 100%;
     top: 0;
     left: 100%;
-    background-color: #cdcdcd;
+    background-color: $color-light;
+
     &.active {
       left: 0;
       transition: all 0.3s ease-out;
     }
+
     &.withZ {
       z-index: 100;
     }
@@ -115,5 +145,113 @@ section {
   span {
     font-style: italic;
     font-weight: 400;
+  }
+}
+
+.dots {
+  position: absolute;
+  margin-top: -48px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+
+  .dot {
+    height: 12px;
+    width: 12px;
+    margin-right: 12px;
+    background-color: #bbb;
+    color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+
+    &.clicked {
+      background-color: rgba(187, 187, 187, 0.123);
+      color: rgba(187, 187, 187, 0.123);
+    }
+  }
+}
+
+/* Gallery */
+
+.gallery-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding-top: 56px;
+
+  .photo {
+    flex: 0 0 32%;
+    height: 200px;
+    margin-bottom: 8px;
+    background-size: cover;
+    background-position: center center;
+    border-radius: $radius;
+    position: relative;
+
+    &::before {
+      position: absolute;
+      content: "";
+      background: $color-dark;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      opacity: 0.6;
+      z-index: 0;
+      display: none;
+    }
+
+    &:hover {
+      &::before {
+        display: block;
+      }
+    }
+
+    .icons {
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      i {
+        color: $color-light;
+        font-size: 24px;
+        padding-right: 12px;
+
+        &:hover {
+          color: $color-main;
+        }
+      }
+    }
+  }
+}
+
+.photo1 {
+  background-image: url("https://i.ibb.co/Lh4BXg3/pizza-4.jpg");
+}
+.photo2 {
+  background-image: url("https://i.ibb.co/SKFNfks/pizza-5.jpg");
+}
+.photo3 {
+  background-image: url("https://i.ibb.co/njH9PRZ/pizza-6.jpg");
+}
+.photo4 {
+  background-image: url("https://i.ibb.co/0hnvGq9/pizza-7.jpg");
+}
+.photo5 {
+  background-image: url("https://i.ibb.co/dtc95YN/pizza-8.jpg");
+}
+.photo6 {
+  background-image: url("https://i.ibb.co/Qn6qg0k/pizza-9.jpg");
+}
+
+/* Footer */
+
+.page-footer {
+  margin-top: -48px;
+
+  a {
+    color: $color-main;
   }
 }

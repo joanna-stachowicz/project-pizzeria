@@ -77,6 +77,7 @@ export const select = {
   },
   carousel: {
     slides: '.opinion-wrapper',
+    dots: '.dot',
   },
 };
 
