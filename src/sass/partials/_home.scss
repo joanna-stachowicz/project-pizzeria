@@ -53,6 +53,7 @@ section {
 
 .subpage {
   position: relative;
+  transition: $transition;
 
   &:hover {
     .subpage-hover {
@@ -188,6 +189,7 @@ section {
     background-position: center center;
     border-radius: $radius;
     position: relative;
+    transition: $transition;
 
     &::before {
       position: absolute;
