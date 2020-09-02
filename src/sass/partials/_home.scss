@@ -167,8 +167,8 @@ section {
     cursor: pointer;
 
     &.clicked {
-      background-color: rgba(187, 187, 187, 0.123);
-      color: rgba(187, 187, 187, 0.123);
+      background-color: $color-dark;
+      color: $color-dark;
     }
   }
 }
@@ -232,18 +232,23 @@ section {
 .photo1 {
   background-image: url("https://i.ibb.co/Lh4BXg3/pizza-4.jpg");
 }
+
 .photo2 {
   background-image: url("https://i.ibb.co/SKFNfks/pizza-5.jpg");
 }
+
 .photo3 {
   background-image: url("https://i.ibb.co/njH9PRZ/pizza-6.jpg");
 }
+
 .photo4 {
   background-image: url("https://i.ibb.co/0hnvGq9/pizza-7.jpg");
 }
+
 .photo5 {
   background-image: url("https://i.ibb.co/dtc95YN/pizza-8.jpg");
 }
+
 .photo6 {
   background-image: url("https://i.ibb.co/Qn6qg0k/pizza-9.jpg");
 }

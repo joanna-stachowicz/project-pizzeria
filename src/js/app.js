@@ -114,7 +114,7 @@ const app = {
   initCarousel: function () {
     const thisApp = this;
 
-    thisApp.carouselWidget = document.querySelectorAll(select.carousel.slides);
+    thisApp.carouselWidget = document.getElementsByClassName(select.carousel.slides);
     console.log(thisApp.carouselWidget.length);
 
     new CarouselWidget(thisApp.carouselWidget);

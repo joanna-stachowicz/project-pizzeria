@@ -76,7 +76,7 @@ export const select = {
     booking: '.booking',
   },
   carousel: {
-    slides: '.opinion-wrapper',
+    slides: 'opinion-wrapper',
     dots: '.dot',
   },
 };
@@ -104,7 +104,8 @@ export const classNames = {
   },
   carousel: {
     zIndex: 'withZ',
-  }
+    clickedDot: 'clicked',
+  },
 };
 
 export const settings = {
