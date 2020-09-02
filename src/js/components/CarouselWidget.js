@@ -29,17 +29,23 @@ class CarouselWidget {
         if (slideIndex + 1 == thisWidget.slides.length) {
           thisWidget.addActive(thisWidget.slides[0]);
           thisWidget.slides[0].style.zIndex = 100;
+
           const dot = document.querySelector(select.carousel.dots + '1');
           thisWidget.selectDot(dot);
+
           setTimeout(thisWidget.removeActive, 350, thisWidget.slides[slideIndex]);
+
           break;
         }
         if (thisWidget.slides[slideIndex].classList.contains(classNames.pages.active)) {
           thisWidget.slides[slideIndex].removeAttribute('style');
+
           setTimeout(thisWidget.removeActive, 350, thisWidget.slides[slideIndex]);
           thisWidget.addActive(thisWidget.slides[slideIndex + 1]);
+
           const dot = document.querySelector(select.carousel.dots + (slideIndex + 2));
           thisWidget.selectDot(dot);
+
           break;
         }
       }
