@@ -43,40 +43,31 @@ section {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 20px;
+    transition: $transition;
   }
 
-  h1 span {
-    font-size: 14px;
-    font-weight: $font-light;
+  p {
+    position: absolute;
+    text-transform: none;
+    font-family: $font-text;
+    font-size: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 70px);
+    width: 100%;
+    transition: $transition;
   }
 }
 
 .subpage {
   position: relative;
-  transition: $transition;
 
   &:hover {
-    .subpage-hover {
-      display: block;
-    }
-
     h1 {
-      display: none;
+      transform: translate(-50%, -90%);
     }
-  }
-
-  .subpage-hover {
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: none;
-
     p {
-      text-transform: none;
-      font-family: $font-text;
-      font-size: 12px;
+      transform: translate(-50%, 0);
     }
   }
 }
@@ -189,7 +180,6 @@ section {
     background-position: center center;
     border-radius: $radius;
     position: relative;
-    transition: $transition;
 
     &::before {
       position: absolute;
@@ -198,14 +188,14 @@ section {
       width: 100%;
       height: 100%;
       left: 0;
-      opacity: 0.6;
+      opacity: 0;
       z-index: 0;
-      display: none;
+      transition: $transition;
     }
 
     &:hover {
       &::before {
-        display: block;
+        opacity: 0.6;
       }
     }
 
@@ -220,6 +210,7 @@ section {
         color: $color-light;
         font-size: 24px;
         padding-right: 12px;
+        transition: $transition;
 
         &:hover {
           color: $color-main;
