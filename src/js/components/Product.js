@@ -201,7 +201,7 @@ class Product {
   initAmountWidget() {       // tworzy instancję klasy AmountWidget i zapisuje ją we właściwości produktu
     const thisProduct = this;
 
-    thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+    thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem, 1);
 
     thisProduct.amountWidgetElem.addEventListener('updated', function () {
       thisProduct.processOrder();

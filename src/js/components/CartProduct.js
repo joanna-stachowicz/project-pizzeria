@@ -35,7 +35,7 @@ class CartProduct {
   initAmountWidget() {       // tworzy instancję klasy AmountWidget i zapisuje ją we właściwości produktu
     const thisCartProduct = this;
 
-    thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
+    thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget, 1);
     thisCartProduct.amountWidget.setValue(thisCartProduct.amount);
 
     thisCartProduct.dom.amountWidget.addEventListener('updated', function() {

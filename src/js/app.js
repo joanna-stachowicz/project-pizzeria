@@ -58,16 +58,16 @@ const app = {
     }
 
     /* get elements cart and nav */
-    thisApp.nav = document.querySelector(select.nav.mainNav);
-    thisApp.cart = document.querySelector(select.containerOf.cart);
+    const nav = document.querySelector(select.nav.mainNav);
+    const cart = document.querySelector(select.containerOf.cart);
 
     /* add class 'visible' on main-nav and cart if home page is not turned on */
     if (pageId == 'home') {
-      thisApp.nav.classList.add(classNames.nav.invisible);
-      thisApp.cart.classList.add(classNames.cart.invisible);
+      nav.classList.add(classNames.nav.invisible);
+      cart.classList.add(classNames.cart.invisible);
     } else {
-      thisApp.nav.classList.remove(classNames.nav.invisible);
-      thisApp.cart.classList.remove(classNames.cart.invisible);
+      nav.classList.remove(classNames.nav.invisible);
+      cart.classList.remove(classNames.cart.invisible);
     }
   },
 
